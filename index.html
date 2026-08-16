@@ -112,6 +112,55 @@ textarea.glass-input{min-height:88px;resize:vertical;line-height:1.6}
 .btn-ai:hover{background:rgba(168,139,250,0.2);border-color:rgba(168,139,250,0.35)}
 .btn-ai:active{transform:scale(0.96)}
 .btn-ai.loading{pointer-events:none;opacity:0.7}
+  
+  /* Install Banner */
+.install-banner{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(120px);
+  z-index:550;display:flex;align-items:center;gap:14px;
+  padding:14px 20px;border-radius:16px;
+  background:rgba(20,20,20,0.92);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);
+  border:0.5px solid rgba(255,255,255,0.1);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5);
+  transition:transform 0.5s cubic-bezier(.22,1,.36,1),opacity 0.5s;
+  opacity:0;pointer-events:none;max-width:calc(100vw - 32px);
+}
+.install-banner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+.install-banner .install-icon{
+  width:48px;height:48px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,#a88bfa,#7c3aed);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#fff;
+}
+.install-banner .install-text{flex:1}
+.install-banner .install-text h4{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;margin-bottom:2px}
+.install-banner .install-text p{font-size:0.68rem;color:rgba(255,255,255,0.45);line-height:1.4}
+.install-banner .install-actions{display:flex;gap:6px;flex-shrink:0}
+.install-banner .install-actions button{
+  padding:8px 16px;border-radius:8px;border:none;
+  font-family:'DM Mono',monospace;font-size:0.72rem;cursor:pointer;
+  transition:all 0.2s;touch-action:manipulation;
+}
+.install-btn-install{
+  background:rgba(255,255,255,0.92);color:#0a0a0a;
+  font-weight:600;
+}
+.install-btn-install:hover{background:#fff}
+.install-btn-dismiss{
+  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);
+  border:0.5px solid rgba(255,255,255,0.08)!important;
+}
+.install-btn-dismiss:hover{background:rgba(255,255,255,0.1);color:#fff}
+
+@media(max-width:900px){
+  .install-banner{
+    bottom:80px;bottom:calc(80px + env(safe-area-inset-bottom,0px));
+    flex-direction:column;text-align:center;
+    width:calc(100% - 24px);max-width:360px;
+  }
+  .install-banner .install-actions{width:100%}
+  .install-banner .install-actions button{flex:1;padding:10px}
+  .install-banner .install-icon{width:42px;height:42px;font-size:1.2rem}
+}
 
 /* Glass Icon */
 .gi{
