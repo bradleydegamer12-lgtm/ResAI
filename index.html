@@ -382,19 +382,7 @@ textarea.glass-input{min-height:88px;resize:vertical;line-height:1.6}
 .modal p{font-size:0.76rem;color:var(--text-muted);line-height:1.6;margin-bottom:16px}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
 
-  <!-- Install PWA Banner -->
-<div class="install-banner" id="installBanner">
-  <div class="install-icon">R</div>
-  <div class="install-text">
-    <h4>Install ResumAI</h4>
-    <p>Add to your home screen for the full app experience</p>
-  </div>
-  <div class="install-actions">
-    <button class="install-btn-dismiss" onclick="dismissInstall()">Later</button>
-    <button class="install-btn-install" onclick="installApp()">Install</button>
-  </div>
-</div>
-
+  
 /* Toast */
 .toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
@@ -736,11 +724,91 @@ textarea.glass-input{min-height:88px;resize:vertical;line-height:1.6}
     </div>
   </div>
 </div>
+  <!-- Install PWA Banner -->
+<div class="install-banner" id="installBanner">
+  <div class="install-icon">R</div>
+  <div class="install-text">
+    <h4>Install ResumAI</h4>
+    <p>Add to your home screen for the full app experience</p>
+  </div>
+  <div class="install-actions">
+    <button class="install-btn-dismiss" onclick="dismissInstall()">Later</button>
+    <button class="install-btn-install" onclick="installApp()">Install</button>
+  </div>
+</div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
+  // ═══════════════════════════════════
+// PWA INSTALL
+// ═══════════════════════════════════
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install banner after 3 seconds
+  setTimeout(() => {
+    const dismissed = localStorage.getItem('resumai_install_dismissed');
+    if (!dismissed) {
+      document.getElementById('installBanner').classList.add('show');
+    }
+  }, 3000);
+});
+
+async function installApp() {
+  if (!deferredPrompt) {
+    showToast('Use your browser menu to install');
+    return;
+  }
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    showToast('App installed!');
+  }
+  deferredPrompt = null;
+  document.getElementById('installBanner').classList.remove('show');
+}
+
+function dismissInstall() {
+  document.getElementById('installBanner').classList.remove('show');
+  localStorage.setItem('resumai_install_dismissed', 'true');
+}
+
+// Hide banner if already installed
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installBanner').classList.remove('show');
+  localStorage.setItem('resumai_install_dismissed', 'true');
+  showToast('ResumAI installed successfully');
+});
+
+// ═══════════════════════════════════
+// SERVICE WORKER (for offline support)
+// ═══════════════════════════════════
+if ('serviceWorker' in navigator) {
+  // Create a minimal service worker from a blob
+  const swCode = `
+    const CACHE = 'resumai-v1';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])));
+      self.skipWaiting();
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        fetch(e.request).catch(() => caches.match(e.request))
+      );
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+
+  // Only register if not on file:// protocol
+  if (location.protocol !== 'file:') {
+    navigator.serviceWorker.register(swUrl).catch(() => {});
+  }
+      }
 // ═══════════════════════════════════
 // FIREBASE INIT
 // ═══════════════════════════════════
