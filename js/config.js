@@ -2,12 +2,12 @@ window.ResumeAI = window.ResumeAI || {};
 
 (function () {
   var firebaseConfig = {
-    apiKey:            "AIzaSyBbSsNYSTyK87ufHvgKxJXi-OIEC_adwKg",
-    authDomain:        "g11-d7bb6.firebaseapp.com",
-    projectId:         "g11-d7bb6",
-    storageBucket:     "g11-d7bb6.firebasestorage.app",
-    messagingSenderId: "432147405359",
-    appId:             "1:432147405359:web:fe49862c93a004a2e8c4da"
+    apiKey:            "AIzaSyBxL35GsFPk64bG7qTmcASfHJ5I4EcEKjo",
+    authDomain:        "resai-c9945.firebaseapp.com",
+    projectId:         "resai-c9945",
+    storageBucket:     "resai-c9945.firebasestorage.app",
+    messagingSenderId: "778651902306",
+    appId:             "1:778651902306:web:389e1646b5581abceccc3b"
   };
 
   firebase.initializeApp(firebaseConfig);
