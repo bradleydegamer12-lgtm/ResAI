@@ -1,0 +1,18 @@
+{
+  "name": "ResumeAI — AI Resume Builder",
+  "short_name": "ResumeAI",
+  "description": "Build professional, ATS-optimized resumes with AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06060b",
+  "theme_color": "#6366f1",
+  "orientation": "any",
+  "categories": ["productivity", "business"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%236366f1' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='sans-serif' font-weight='bold'%3ER%3C/text%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
